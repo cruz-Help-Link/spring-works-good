@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- Enable AOP proxy support -->
+    <aop:aspectj-autoproxy />
+
+    <!-- Component scanning for the base package -->
+    <context:component-scan base-package="com.example.aopdemo" />
+
+    <!-- Define the GreetingService bean -->
+    <bean id="greetingService" class="com.example.aopdemo.service.GreetingService" />
+
+    <!-- Define the LoggingAspect -->
+    <bean id="loggingAspect" class="com.example.aopdemo.aspect.LoggingAspect" />
+    
+     <!-- Define the GiftingService bean -->
+    <bean id="gift" class="com.example.aopdemo.service.GiftingService" />
+    
+    <bean id="giftingAspect" class="com.example.aopdemo.aspect.PrintAspect"/> 
+
+    <!-- Configure the aspect with advice -->
+    <aop:config>
+        <!-- Define the pointcut for GreetingService's sayHello method -->
+        <aop:pointcut id="greetingServicePointcut"
+                      expression="execution(* com.example.aopdemo.service.GreetingService.sayHello(..))"/>
+
+        <!-- Before advice -->
+        <aop:aspect ref="loggingAspect">
+            <aop:before method="logBefore" pointcut-ref="greetingServicePointcut"/>
+        </aop:aspect>
+
+        <!-- After advice -->
+        <aop:aspect ref="loggingAspect">
+            <aop:after method="logAfter" pointcut-ref="greetingServicePointcut"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

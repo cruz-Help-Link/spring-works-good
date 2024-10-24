@@ -1,0 +1,6 @@
+com\example\aopdemo\service\GreetingService.class
+com\example\aopdemo\service\GiftingService.class
+com\example\aopdemo\aspect\PrintAspect.class
+com\example\aopdemo\MainApp.class
+com\example\aopdemo\Main.class
+com\example\aopdemo\aspect\LoggingAspect.class
